@@ -1,5 +1,6 @@
 const serverConfig = require('./configs/server.config');
 const dbConfig = require('./configs/db.config');
+const parentRouter = require('./routes/parent.routes');
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -14,6 +15,8 @@ mongoose.connect(dbConfig.DB_URL, (err) => {
         console.log("connected to DB");
     }
 });
+
+parentRouter(app);
 
 app.listen(serverConfig.PORT, serverConfig.HOST, () => {
     console.log(`Server is running on ${serverConfig.HOST}:${serverConfig.PORT}`);
