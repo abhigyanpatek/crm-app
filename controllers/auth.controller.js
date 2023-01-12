@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const serverConfig = require('../configs/server.config');
+const { userResponse } = require('../utils/objectConverter');
 
 const signUp = async (req, res) => {
     try {
@@ -25,14 +26,7 @@ const signUp = async (req, res) => {
         }
 
         const user = await User.create(userObject);
-        const postResponse = {
-            name: user.name,
-            id: user._id,
-            email: user.email,
-            userType: user.userType,
-            userStatus: user.userStatus
-        }
-        res.status(201).send(postResponse);
+        res.status(201).send(userResponse(user));
     } catch (err) {
         console.log(err.message);
         res.status(500).send({
@@ -70,14 +64,8 @@ const signIn = async (req, res) => {
             expiresIn: 86400
         });
 
-        const postResponse = {
-            name: user.name,
-            id: user.id,
-            email: user.email,
-            userType: user.userType,
-            userStatus: user.userStatus,
-            accessToken: token
-        }
+        const postResponse = userResponse(user);
+        postResponse.accessToken = token;
         res.status(200).send(postResponse);
     } catch (err) {
         console.log(err.message);
