@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: userStatus,
         default: "APPROVED"
+    },
+    ticketCreated: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Ticket"
+    },
+    ticketAssigned: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Ticket"
     }
 }, {timestamps: true});
 

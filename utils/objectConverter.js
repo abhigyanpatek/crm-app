@@ -10,14 +10,44 @@ exports.userResponse = (user) => {
 
 exports.userListResponse = (users) => {
     const userResult = [];
-    users.forEach(doc => {
+    users.forEach(user => {
         userResult.push({
-            name: doc.name,
-            id: doc._id,
-            email: doc.email,
-            userType: doc.userType,
-            userStatus: doc.userStatus
+            name: user.name,
+            id: user._id,
+            email: user.email,
+            userType: user.userType,
+            userStatus: user.userStatus
         });
     });
     return userResult;
+}
+
+exports.ticketResponse = (ticket) => {
+    return {
+        title: ticket.title,
+        description: ticket.description,
+        status: ticket.status,
+        reporter: ticket.reporter,
+        assignee: ticket.assignee,
+        id: ticket._id,
+        createdAt: ticket.createdAt,
+        updatedAt: ticket.updatedAt
+    };
+}
+
+exports.ticketListResponse = (tickets) => {
+    const ticketResult = [];
+    tickets.forEach(ticket => {
+        ticketResult.push({
+            title: ticket.title,
+            description: ticket.description,
+            status: ticket.status,
+            reporter: ticket.reporter,
+            assignee: ticket.assignee,
+            id: ticket._id,
+            createdAt: ticket.createdAt,
+            updatedAt: ticket.updatedAt
+        });
+    });
+    return ticketResult;
 }
