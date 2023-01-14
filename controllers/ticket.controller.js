@@ -37,7 +37,7 @@ const createTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
     try {
         const ticket = await Ticket.findById(req.params.id);
-        if(ticket.reporter == req.id){
+        if(ticket.reporter == req.id || ticket.assignee == req.id || req.role == "ADMIN"){
             ticket.title = req.body.title ?? ticket.title;
             ticket.description = req.body.description ?? ticket.description;
             ticket.ticketPriority = req.body.ticketPriority ?? ticket.ticketPriority;
@@ -48,7 +48,7 @@ const updateTicket = async (req, res) => {
         }else {
             console.log("Ticket was being updated by someone who has not created the ticket");
             res.status(401).send({
-                message: "Ticket can be updated only by the customer who created it"
+                message: "Ticket can be updated only by the customer who created it or engineer who got assigned"
             });
         }
     } catch (err) {
@@ -60,13 +60,17 @@ const updateTicket = async (req, res) => {
 }
 
 const getAllTickets = async (req, res) => {
-    const queryObj = {
-        reporter: req.id
-    };
+    const queryObj = {};
     if(req.query.status){
         queryObj.status = req.query.status;
     }
 
+    if(req.role === "ENGINEER"){
+        queryObj.assignee = req.id;
+    }
+    if(req.role === "CUSTOMER"){
+        queryObj.reporter = req.id;
+    }
     try {
         const tickets = await Ticket.find(queryObj);
         res.status(200).send(ticketListResponse(tickets));
