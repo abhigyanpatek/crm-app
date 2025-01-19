@@ -19,7 +19,7 @@ This repository contains the backend implementation of a **Customer Relationship
 - Provides real-time updates on the status of user-reported issues, enhancing communication and transparency.
 
 ## Tech Stack
-- **Backend**: Node.js
+- **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Notification Microservice**:
 - **Deployed On**: Render
